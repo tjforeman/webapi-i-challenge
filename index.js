@@ -45,6 +45,31 @@ server.get('/users/:id', (req,res)=>{
     })
 
 })
+server.delete('/users/:id', (req,res)=>{
+    const userId= req.params.id
+    db
+    .remove(userId)
+    .then(deleted =>{
+        res.status(204).end();
+    })
+    .catch(err =>{
+        res.status(500).json({error:err, message:"The user could not be removed"})
+    })
+})
+
+server.put('/users/:id', (req,res)=>{
+    const userId= req.params.id
+    const updatedUser=req.body
+    console.log('req body:', updatedUser)
+    db
+    .update(userId,updatedUser)
+    .then(user =>{
+        res.status(201).json(user)
+    })
+    .catch(err =>{
+        res.status(500).json({error:err, message:'"The user information could not be modified."'})
+    })
+})
 
 // server.get('/hobbits', (req,res)=>{
 // const hobbits =[
